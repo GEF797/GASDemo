@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright G.E.FC 2024
 
 
 #include "Player/GASPlayerState.h"
@@ -17,7 +17,6 @@ AGASPlayerState::AGASPlayerState(const FObjectInitializer& ObjectInitializer)
 
 	// These attribute sets will be detected by AbilitySystemComponent::InitializeComponent. Keeping a reference so that the sets don't get garbage collected before that.
 	TestAttributeSet = CreateDefaultSubobject<UTestAttributeSet>(TEXT("TestAttributeSet"));
-	//CombatSet = CreateDefaultSubobject<ULyraCombatSet>(TEXT("CombatSet"));
 
 	// AbilitySystemComponent needs to be updated at a high frequency.
 	NetUpdateFrequency = 100.0f;

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright G.E.FC 2024
 
 
 #include "AbilitySystem/TestExecutionCalculation.h"

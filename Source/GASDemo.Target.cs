@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright G.E.FC 2024
 
 using UnrealBuildTool;
 using System.Collections.Generic;
