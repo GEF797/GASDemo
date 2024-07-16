@@ -16,6 +16,8 @@ UTestAttributeSet::UTestAttributeSet()
 	, MaxHealth(100.0f)
 	,Mana(100.0f)
 	,MaxMana(100.0f)
+	,EP(5.0f)
+	,MaxEP(5.0f)
 {
 }
 
@@ -31,12 +33,22 @@ void UTestAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldValue)
 
 void UTestAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UTestAttributeSet, MaxMana, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTestAttributeSet, Mana, OldValue);
 }
 
 void UTestAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UTestAttributeSet, MaxMana, OldValue);
+}
+
+void UTestAttributeSet::OnRep_EP(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTestAttributeSet, EP, OldValue);
+}
+
+void UTestAttributeSet::OnRep_MaxEP(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTestAttributeSet, MaxEP, OldValue);
 }
 
 void UTestAttributeSet::OnRep_BaseDamage(const FGameplayAttributeData& OldValue)
@@ -96,11 +108,45 @@ void UTestAttributeSet::ClampAttribute(const FGameplayAttribute& Attribute, floa
 	{
 		// Do not allow health to go negative or above max health.
 		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+
+		return;
 	}
-	else if (Attribute == GetMaxHealthAttribute())
+	if (Attribute == GetMaxHealthAttribute())
 	{
 		// Do not allow max health to drop below 1.
 		NewValue = FMath::Max(NewValue, 1.0f);
+
+		return;
+	}
+
+	if (Attribute == GetManaAttribute())
+	{
+		// Do not allow health to go negative or above max health.
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+
+		return;
+	}
+	if (Attribute == GetMaxManaAttribute())
+	{
+		// Do not allow max health to drop below 1.
+		NewValue = FMath::Max(NewValue, 1.0f);
+
+		return;
+	}
+
+	if (Attribute == GetEPAttribute())
+	{
+		// Do not allow health to go negative or above max health.
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxEP());
+
+		return;
+	}
+	if (Attribute == GetMaxEPAttribute())
+	{
+		// Do not allow max health to drop below 1.
+		NewValue = FMath::Max(NewValue, 1.0f);
+
+		return;
 	}
 }
 
@@ -113,5 +159,7 @@ void UTestAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UTestAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UTestAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UTestAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTestAttributeSet, EP, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTestAttributeSet, MaxEP, COND_None, REPNOTIFY_Always);
 
 }

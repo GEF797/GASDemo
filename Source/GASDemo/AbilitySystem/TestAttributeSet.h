@@ -31,6 +31,8 @@ public:
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, MaxHealth);
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, Mana);
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, MaxMana);
+	ATTRIBUTE_ACCESSORS(UTestAttributeSet, EP);
+	ATTRIBUTE_ACCESSORS(UTestAttributeSet, MaxEP);
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, Damage);
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, BaseDamage);
 
@@ -47,6 +49,12 @@ protected:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	void OnRep_EP(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	void OnRep_MaxEP(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
 	void OnRep_BaseDamage(const FGameplayAttributeData& OldValue);
@@ -77,6 +85,13 @@ private:
 	// The current max health attribute.  Max health is an attribute since gameplay effects can modify it.
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "RPG|Health", Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData MaxMana;
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EP, Category = "RPG|Health", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData EP;
+
+	// The current max health attribute.  Max health is an attribute since gameplay effects can modify it.
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxEP, Category = "RPG|Health", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData MaxEP;
 
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BaseDamage, Category = "RPG|Health", Meta = (HideFromModifiers,AllowPrivateAccess = true))
