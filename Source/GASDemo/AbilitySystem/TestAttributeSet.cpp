@@ -4,11 +4,12 @@
 #include "AbilitySystem/TestAttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+#include "NativeGameplayTags.h"
 #include "TestAttributeSet.h"
 
 
 
-
+UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_GameplayEvent_Death, "GameplayEvent.Dead");
 
 
 UTestAttributeSet::UTestAttributeSet()
@@ -81,6 +82,25 @@ void UTestAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		// Clamp and fall into out of health handling below
 		SetHealth(FMath::Clamp(GetHealth(), 0, GetMaxHealth()));
 	}
+	if ((GetHealth() <= 0.0f))
+	{
+#if WITH_SERVER_CODE
+	FGameplayEventData Payload;
+	Payload.EventTag = TAG_GameplayEvent_Death;
+	Payload.Instigator = Instigator;
+	Payload.Target = GetOwningAbilitySystemComponent()->GetAvatarActor();
+	Payload.OptionalObject = Data.EffectSpec.Def;
+	Payload.OptionalObject2 = Causer;
+	Payload.ContextHandle = Data.EffectSpec.GetEffectContext();
+	//Payload.InstigatorTags = &Data.EffectSpec.CapturedSourceTags->GetAggregatedTags();
+	//Payload.TargetTags = &Data.EffectSpec.CapturedTargetTags->GetAggregatedTags();
+	Payload.EventMagnitude = Data.EvaluatedData.Magnitude;
+
+	FScopedPredictionWindow NewScopedWindow(GetOwningAbilitySystemComponent(), true);
+	GetOwningAbilitySystemComponent()->HandleGameplayEvent(Payload.EventTag, &Payload);
+
+#endif
+}
 }
 
 void UTestAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const

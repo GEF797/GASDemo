@@ -47,6 +47,10 @@
 		{
 			"Name": "AdvancedGASSystem",
 			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
 		}
 	]
 }
