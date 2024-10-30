@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/TestAttributeSet.h"
 #include "AbilitySystem/RPGAbilitySystemComponent.h"
 #include "GenericTeamAgentInterface.h"
 #include "GASPlayerState.generated.h"
@@ -47,7 +46,4 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "RPG|PlayerState")
 	TObjectPtr<URPGAbilitySystemComponent> AbilitySystemComponent;
 
-
-
-	TObjectPtr<UTestAttributeSet> TestAttributeSet;
 };
